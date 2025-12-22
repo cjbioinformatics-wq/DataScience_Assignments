@@ -71,3 +71,81 @@ WHERE department IN ('IT', 'HR');
 
 SELECT * FROM Employees
 WHERE department NOT IN ('HR', 'Finance');
+
+SELECT e.emp_id, e.name, e.department, p.project_name, p.hours_worked
+FROM Employees e
+INNER JOIN Projects p
+ON e.emp_id = p.emp_id;
+
+SELECT e.emp_id, e.name, p.project_name
+FROM Employees e
+LEFT JOIN Projects p
+ON e.emp_id = p.emp_id;
+
+SELECT e.name, p.project_name
+FROM Employees e
+RIGHT JOIN Projects p
+ON e.emp_id = p.emp_id;
+
+SELECT e.emp_id, e.name, p.project_name
+FROM Employees e
+LEFT JOIN Projects p
+ON e.emp_id = p.emp_id
+
+UNION
+
+SELECT e.emp_id, e.name, p.project_name
+FROM Employees e
+RIGHT JOIN Projects p
+ON e.emp_id = p.emp_id;
+
+SELECT *
+FROM Employees
+WHERE salary > (
+    SELECT AVG(salary) FROM Employees
+);
+
+SELECT *
+FROM Employees
+WHERE emp_id IN (
+    SELECT emp_id FROM Projects
+    WHERE hours_worked > 100
+);
+
+SELECT name,
+       salary,
+       (SELECT AVG(salary) FROM Employees) AS avg_salary
+FROM Employees;
+
+SELECT name, salary,
+CASE
+    WHEN salary >= 55000 THEN 'High Salary'
+    WHEN salary BETWEEN 45000 AND 54999 THEN 'Medium Salary'
+    ELSE 'Low Salary'
+END AS salary_category
+FROM Employees;
+
+SELECT name, age,
+CASE
+    WHEN age >= 35 THEN 'Senior'
+    WHEN age BETWEEN 28 AND 34 THEN 'Mid-Level'
+    ELSE 'Junior'
+END AS experience_level
+FROM Employees;
+
+SELECT name, age,
+CASE
+    WHEN age >= 35 THEN 'Senior'
+    WHEN age BETWEEN 28 AND 34 THEN 'Mid-Level'
+    ELSE 'Junior'
+END AS experience_level
+FROM Employees;
+
+CREATE VIEW Employee_Project_View AS
+SELECT e.emp_id, e.name, e.department,
+       p.project_name, p.hours_worked
+FROM Employees e
+INNER JOIN Projects p
+ON e.emp_id = p.emp_id;
+
+SELECT * FROM Employee_Project_View;
